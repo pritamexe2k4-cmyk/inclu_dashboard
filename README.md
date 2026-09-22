@@ -1,80 +1,40 @@
-# IncluHub Education Management Dashboard
+# IncluHub Dashboard
 
-IncluHub is a role-based creative education workflow application for Admin,
-Educator, and Student portals. Server actions and Supabase RLS enforce every
-protected workflow.
+Role-based education ops app for **Admin**, **Educator**, and **Student** portals (IncluHub creative education school). Server actions and Supabase RLS protect workflows.
+
+## Why
+
+Replace sheet-based school ops with institutes, teams, stages, portfolio review, and studio check-in — real operational tool used in IncluHub workflows.
 
 ## Stack
 
-- Next.js 16, React 19, TypeScript
-- Tailwind CSS and shadcn-style UI components
-- Supabase Postgres, Auth, RLS, Storage, and RPC workflows
+- Next.js 16 · React 19 · TypeScript
+- Tailwind CSS · shadcn-style UI
+- Supabase (Postgres, Auth, RLS, Storage, RPC)
+- Vercel deploy target
 
-## Quick start
-
-### 1. Clone and install
+## Run
 
 ```bash
-git clone <repo-url>
-cd incluhub-dashboard
+git clone https://github.com/pritamexe2k4-cmyk/inclu_dashboard.git
+cd inclu_dashboard
 npm install
-```
-
-### 2. Environment
-
-Copy `.env.example` to `.env.local` and set:
-
-| Variable | Required |
-|----------|----------|
-| `NEXT_PUBLIC_SUPABASE_URL` | Yes |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Yes |
-| `SUPABASE_SERVICE_ROLE_KEY` | Server only — never expose to the browser |
-| `NEXT_PUBLIC_APP_URL` | Yes (e.g. `http://localhost:3000`) |
-| `EXPECTED_SUPABASE_PROJECT_REF` | Required for seed/reset scripts |
-
-Never commit `.env.local`.
-
-### 3. Choose a branch
-
-| Branch | Use for |
-|--------|---------|
-| `master` | Package F baseline (migrations `001`–`013`) |
-| `feat/local-dev` | Current founder workflows (migrations `014`–`022`) |
-
-```bash
-git checkout feat/local-dev   # active development
-```
-
-### 4. Apply database schema
-
-Apply SQL migrations in order from `supabase/migrations/` in the Supabase SQL
-editor (or your migration pipeline):
-
-- **Package F:** `001` → `013`
-- **Founder / local-dev:** also `014` → `022`
-
-See [supabase/README.md](supabase/README.md) and [docs/README.md](docs/README.md).
-For detailed workflows see [docs/runbooks/LOCAL_DEVELOPMENT.md](docs/runbooks/LOCAL_DEVELOPMENT.md).
-
-### 5. Run locally
-
-```bash
+cp .env.example .env.local   # set Supabase + APP_URL vars; never commit secrets
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). Admin creates all users;
-there is no public signup.
+Open http://localhost:3000. Admin creates users — no public signup.
 
-### 6. Optional test data (non-production only)
+### Branches
 
-Destructive scripts require explicit flags. See script headers and
-[docs/PROJECT_RULES.md](docs/PROJECT_RULES.md).
+| Branch | Use |
+|--------|-----|
+| `master` | Package F baseline (migrations `001`–`013`) |
+| `feat/local-dev` | Founder workflows (also `014`–`022`) |
 
-```bash
-npm run test:reset -- --confirm-reset
-```
+Apply SQL migrations in order from `supabase/migrations/` (see [supabase/README.md](supabase/README.md)).
 
-## Verify changes
+### Verify
 
 ```bash
 npm exec tsc -- --noEmit --incremental false
@@ -83,28 +43,8 @@ npm run build
 npm run test:release-authz
 ```
 
-Database checks (Supabase SQL editor):
+## Status
 
-- Package E1: `supabase/scripts/verify/verify_package_e1.sql`, `supabase/scripts/verify/verify_package_e1_rpc.sql`
-- Stage 3 (local-dev): `supabase/scripts/verify/verify_stage3_tables.sql`, `supabase/scripts/verify/verify_stage3_qr_workflow.sql`
-- Dev scripts index: [scripts/README.md](scripts/README.md)
+Package F (Stages 1–4) on `master`. Founder flows on `feat/local-dev` add notifications, QR check-in, broadcast, and Stage 5 messaging.
 
-## Documentation map
-
-| Topic | Location |
-|-------|----------|
-| Doc index | [docs/README.md](docs/README.md) |
-| New developer setup | [docs/runbooks/NEW_DEVELOPER_SETUP.md](docs/runbooks/NEW_DEVELOPER_SETUP.md) |
-| Local development | [docs/runbooks/LOCAL_DEVELOPMENT.md](docs/runbooks/LOCAL_DEVELOPMENT.md) |
-| Dev scripts | [scripts/README.md](scripts/README.md) |
-| Database / migrations | [supabase/README.md](supabase/README.md) |
-| MVP rules | [docs/PROJECT_RULES.md](docs/PROJECT_RULES.md) |
-| Build progress | [docs/IMPLEMENTATION_PROGRESS.md](docs/IMPLEMENTATION_PROGRESS.md) |
-| Release readiness | [docs/releases/PACKAGE_F_RELEASE_READINESS.md](docs/releases/PACKAGE_F_RELEASE_READINESS.md) |
-| AI agent instructions | [AGENTS.md](AGENTS.md) |
-
-## Current status
-
-Package F (Stages 1–4 portfolio and studio flows) is on `master`. Founder
-workflows on `feat/local-dev` add in-app notifications, Stage 3 QR check-in,
-admin broadcast updates, and Stage 5 ecosystem review messaging.
+Docs: [docs/README.md](docs/README.md) · [AGENTS.md](AGENTS.md)
