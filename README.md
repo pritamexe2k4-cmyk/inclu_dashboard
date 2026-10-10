@@ -1,40 +1,51 @@
 # IncluHub Dashboard
 
-Role-based education ops app for **Admin**, **Educator**, and **Student** portals (IncluHub creative education school). Server actions and Supabase RLS protect workflows.
+A role-based operations dashboard for IncluHub's creative-education programme. It replaces scattered sheets and chats with one controlled workflow for students, educators, external members, and administrators.
 
-## Why
+## What it covers
 
-Replace sheet-based school ops with institutes, teams, stages, portfolio review, and studio check-in — real operational tool used in IncluHub workflows.
+- Admin-created accounts and role-based dashboards.
+- Student teams, institute and educator assignments, and programme stages.
+- Portfolio submissions and educator/admin approvals.
+- Brand or creative projects, studio QR check-in, notifications, and activity records.
+
+## Core workflow
+
+```mermaid
+flowchart LR
+  A[Admin creates accounts] --> T[Team and educator assignment]
+  T --> S[Programme stages]
+  S --> P[Portfolio review]
+  P --> C[Creative project]
+  C --> E[Ecosystem unlock]
+```
+
+The security model is simple: an admin creates users; users never choose their own role; server-side checks and Supabase Row Level Security (RLS) limit each user to the data they are allowed to see.
 
 ## Stack
 
-- Next.js 16 · React 19 · TypeScript
-- Tailwind CSS · shadcn-style UI
-- Supabase (Postgres, Auth, RLS, Storage, RPC)
-- Vercel deploy target
+Next.js · React · TypeScript · Tailwind CSS · Supabase Auth, Postgres, Storage, and RLS · Vercel
 
-## Run
+## Run locally
 
-```bash
-git clone https://github.com/pritamexe2k4-cmyk/inclu_dashboard.git
-cd inclu_dashboard
-npm install
-cp .env.example .env.local   # set Supabase + APP_URL vars; never commit secrets
-npm run dev
-```
+1. Install dependencies and create local configuration:
 
-Open http://localhost:3000. Admin creates users — no public signup.
+   ```bash
+   npm install
+   cp .env.example .env.local
+   ```
 
-### Branches
+2. Set the Supabase values in `.env.local`. Keep `SUPABASE_SERVICE_ROLE_KEY` server-only and never commit secrets.
 
-| Branch | Use |
-|--------|-----|
-| `master` | Package F baseline (migrations `001`–`013`) |
-| `feat/local-dev` | Founder workflows (also `014`–`022`) |
+3. Apply the SQL migrations in order from `supabase/migrations/`, then start the app:
 
-Apply SQL migrations in order from `supabase/migrations/` (see [supabase/README.md](supabase/README.md)).
+   ```bash
+   npm run dev
+   ```
 
-### Verify
+Open `http://localhost:3000`.
+
+## Verify
 
 ```bash
 npm exec tsc -- --noEmit --incremental false
@@ -43,8 +54,4 @@ npm run build
 npm run test:release-authz
 ```
 
-## Status
-
-Package F (Stages 1–4) on `master`. Founder flows on `feat/local-dev` add notifications, QR check-in, broadcast, and Stage 5 messaging.
-
-Docs: [docs/README.md](docs/README.md) · [AGENTS.md](AGENTS.md)
+More implementation detail is in [docs/README.md](docs/README.md) and [supabase/README.md](supabase/README.md).
